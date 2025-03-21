@@ -9,6 +9,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //Aqui me tengo que traer el provider que es como un contexto en react, es para poder saber la info de las tareas actuales 
     final taskProvider = Provider.of<TaskProvider>(context);
     return Scaffold(
       appBar: AppBar(
@@ -33,13 +34,13 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: FutureBuilder(
+        child: FutureBuilder(// aqui es como una promesa que espera a que se carguen las tareas 
           future: taskProvider.loadTasks(),
           builder: (context, snapshot) {
-            return Consumer<TaskProvider>(
+            return Consumer<TaskProvider>(//aqui se consume el provider, y escucha a lo que le diga taskprovider 
               builder: (_, provider, __) {
                 final tasks = provider.tasks;
-                return tasks.isEmpty
+                return tasks.isEmpty// si no hay tareas muestra lo quehay al principio de la app
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -63,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                           const Spacer(),
                         ],
                       )
-                    : ListView.builder(
+                    : ListView.builder(// si sí hay tareas con cada tarea mostrandose muetsra abajo 
                         itemCount: tasks.length,
                         itemBuilder: (_, index) {
                           final task = tasks[index];
